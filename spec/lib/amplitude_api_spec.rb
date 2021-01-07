@@ -220,19 +220,26 @@ describe AmplitudeAPI do
         )
         expect(described_class).to receive(:track).with(event)
 
-        described_class.send_event('test_event', user, nil, event_properties: { test_property: 1 })
+        described_class.send_event(
+          event_name: 'test_event',
+          user: user,
+          event_properties: { test_property: 1 }
+        )
       end
 
       context 'the user is nil' do
         it 'sends an event with the no account user' do
           event = AmplitudeAPI::Event.new(
-            user_id: nil,
+            user_id: "user who doesn't have an account",
             event_type: 'test_event',
             event_properties: { test_property: 1 }
           )
           expect(described_class).to receive(:track).with(event)
 
-          described_class.send_event('test_event', nil, nil, event_properties: { test_property: 1 })
+          described_class.send_event(
+            event_name: 'test_event',
+            event_properties: { test_property: 1 }
+          )
         end
       end
 
@@ -245,7 +252,11 @@ describe AmplitudeAPI do
           )
           expect(described_class).to receive(:track).with(event)
 
-          described_class.send_event('test_event', user.id, nil, event_properties: { test_property: 1 })
+          described_class.send_event(
+            event_name: 'test_event',
+            user: user.id,
+            event_properties: { test_property: 1 }
+          )
         end
 
         it 'sends arbitrary user_properties to AmplitudeAPI' do
@@ -258,9 +269,8 @@ describe AmplitudeAPI do
           expect(described_class).to receive(:track).with(event)
 
           described_class.send_event(
-            'test_event',
-            user.id,
-            nil,
+            event_name: 'test_event',
+            user: user.id,
             event_properties: { test_property: 1 },
             user_properties: { test_user_property: 'abc' }
           )
@@ -279,7 +289,12 @@ describe AmplitudeAPI do
           )
           expect(described_class).to receive(:track).with(event)
 
-          described_class.send_event('test_event', user, device_id, event_properties: { test_property: 1 })
+          described_class.send_event(
+            event_name: 'test_event',
+            user: user,
+            device: device_id,
+            event_properties: { test_property: 1 }
+          )
         end
       end
 
@@ -293,7 +308,11 @@ describe AmplitudeAPI do
           )
           expect(described_class).to receive(:track).with(event)
 
-          described_class.send_event('test_event', nil, device_id, event_properties: { test_property: 1 })
+          described_class.send_event(
+            event_name: 'test_event',
+            device: device_id,
+            event_properties: { test_property: 1 }
+          )
         end
       end
     end
