@@ -51,6 +51,7 @@ class AmplitudeAPI
         user_id: user,
         device_id: device,
         event_type: event_name,
+        time: options.fetch(:time, nil),
         event_properties: options.fetch(:event_properties, {}),
         user_properties: options.fetch(:user_properties, {})
       )

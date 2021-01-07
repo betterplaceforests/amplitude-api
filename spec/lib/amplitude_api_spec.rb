@@ -316,6 +316,25 @@ describe AmplitudeAPI do
         end
       end
     end
+
+    context 'when time is passed in' do
+      let(:time_now) { Time.now }
+
+      it 'sends an event with the correct time set' do
+        event = AmplitudeAPI::Event.new(
+          user_id: '123',
+          event_type: 'test_event',
+          time: time_now
+        )
+        expect(described_class).to receive(:track).with(event)
+
+        described_class.send_event(
+          user: '123',
+          event_name: 'test_event',
+          time: time_now
+        )
+      end
+    end
   end
 
   describe '.send_identify' do
